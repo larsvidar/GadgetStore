@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".EditActivity">
+
+    <!-- Product Info category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Product Info label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Info" />
+
+        <!-- Product Info inputs -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Product name"/>
+
+            <EditText
+                android:id="@+id/edit_product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Price"/>
+
+            <EditText
+                android:id="@+id/edit_product_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Quantity" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Supplier Info category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Supplier Info"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_supplier_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Supplier name" />
+
+            <EditText
+                android:id="@+id/edit_supplier_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Supplier number" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
