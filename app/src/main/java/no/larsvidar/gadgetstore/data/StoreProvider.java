@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import no.larsvidar.gadgetstore.data.StoreContract.InventoryEntry;
 
@@ -108,7 +109,7 @@ public class StoreProvider extends ContentProvider {
         //Validate ProductName input
         //Checking that ProductName is not  null
         String productName = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
-        if (productName == null) {
+        if (productName == null || productName.isEmpty()) {
             throw new IllegalArgumentException("Please type in a Product name");
         }
 
@@ -116,7 +117,7 @@ public class StoreProvider extends ContentProvider {
         //Validate ProductPrice input
         //Checking that ProductPrice is not  null
         String productPrice = values.getAsString(InventoryEntry.COLUMN_PRODUCT_PRICE);
-        if (productPrice == null) {
+        if (productPrice == null || productPrice.isEmpty()) {
             throw new IllegalArgumentException("Please type in a Product price");
         }
 
@@ -125,7 +126,7 @@ public class StoreProvider extends ContentProvider {
         try {
             price = Integer.parseInt(productPrice);
         } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException(productPrice + "is not a valid number for Price");
+            throw new NumberFormatException();
         }
 
         //Checking that ProductPrice is not negative
@@ -137,7 +138,7 @@ public class StoreProvider extends ContentProvider {
         //Validate Product Quantity input
         //Checking that ProductQuantity is not  null
         String productQuantity = values.getAsString(InventoryEntry.COLUMN_PRODUCT_QUANTITY);
-        if (productQuantity == null) {
+        if (productQuantity == null || productQuantity.isEmpty()) {
             throw new IllegalArgumentException("Please type in quantity");
         }
 
@@ -146,7 +147,7 @@ public class StoreProvider extends ContentProvider {
         try {
             quantity = Integer.parseInt(productQuantity);
         } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException(productPrice + "is not a valid number for Quantity");
+            throw new NumberFormatException();
         }
 
         //Checking that ProductPrice is not negative
@@ -158,14 +159,14 @@ public class StoreProvider extends ContentProvider {
         //Validate SupplierName
         //Checking that SupplierName is not  null
         String supplierName = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NAME);
-        if (supplierName == null) {
+        if (supplierName == null || supplierName.isEmpty()) {
             throw new IllegalArgumentException("Please type in a Supplier name");
         }
 
         //Validate SupplierNumber
         //Checking that SupplierNumber is not  null
         String supplierNumber = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NUMBER);
-        if (supplierNumber == null) {
+        if (supplierNumber == null || supplierNumber.isEmpty()) {
             throw new IllegalArgumentException("Please type in a Supplier phone number");
         }
 
@@ -222,15 +223,28 @@ public class StoreProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        //***** Validating inputs *****
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case INVENTORY:
+                return updateProduct(uri, values, selection, selectionArgs);
+            case INVENTORY_ID:
+                selection = InventoryEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
+                return updateProduct(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
+    }
 
+    private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        //***** Validating inputs *****
 
         //Validate ProductName input if key is present
         if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_NAME)) {
 
             //Checking that ProductName is not  null
             String productName = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
-            if (productName == null) {
+            if (productName == null || productName.isEmpty()) {
                 throw new IllegalArgumentException("Please type in a Product name");
             }
         }
@@ -241,7 +255,7 @@ public class StoreProvider extends ContentProvider {
 
             //Checking that ProductPrice is not  null
             String productPrice = values.getAsString(InventoryEntry.COLUMN_PRODUCT_PRICE);
-            if (productPrice == null) {
+            if (productPrice == null || productPrice.isEmpty()) {
                 throw new IllegalArgumentException("Please type in a Product price");
             }
 
@@ -250,7 +264,7 @@ public class StoreProvider extends ContentProvider {
             try {
                 price = Integer.parseInt(productPrice);
             } catch (NumberFormatException nfe) {
-                throw new IllegalArgumentException(productPrice + "is not a valid number for Price");
+                throw new NumberFormatException();
             }
 
             //Checking that ProductPrice is not negative
@@ -265,7 +279,7 @@ public class StoreProvider extends ContentProvider {
 
             //Checking that ProductQuantity is not  null
             String productQuantity = values.getAsString(InventoryEntry.COLUMN_PRODUCT_QUANTITY);
-            if (productQuantity == null) {
+            if (productQuantity == null || productQuantity.isEmpty()) {
                 throw new IllegalArgumentException("Please type in quantity");
             }
 
@@ -274,7 +288,7 @@ public class StoreProvider extends ContentProvider {
             try {
                 quantity = Integer.parseInt(productQuantity);
             } catch (NumberFormatException nfe) {
-                throw new IllegalArgumentException(productQuantity + "is not a valid number for Quantity");
+                throw new NumberFormatException();
             }
 
             //Checking that ProductPrice is not negative
@@ -289,7 +303,7 @@ public class StoreProvider extends ContentProvider {
 
             //Checking that SupplierName is not  null
             String supplierName = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NAME);
-            if (supplierName == null) {
+            if (supplierName == null || supplierName.isEmpty()) {
                 throw new IllegalArgumentException("Please type in a Supplier name");
             }
         }
@@ -299,7 +313,7 @@ public class StoreProvider extends ContentProvider {
 
             //Checking that SupplierNumber is not  null
             String supplierNumber = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NUMBER);
-            if (supplierNumber == null) {
+            if (supplierNumber == null || supplierNumber.isEmpty()) {
                 throw new IllegalArgumentException("Please type in a Supplier phone number");
             }
         }

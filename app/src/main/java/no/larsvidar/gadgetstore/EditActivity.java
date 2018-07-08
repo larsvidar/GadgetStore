@@ -14,10 +14,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     private EditText mSupplierNumberEditText;
 
     private boolean mHasProductChanged = false;
+    private int mQuantity = 0;
 
     //OnTouchListener listening for any user interaction on a view.
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -69,6 +72,26 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mProductQuantityEditText = findViewById(R.id.edit_product_quantity);
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierNumberEditText = findViewById(R.id.edit_supplier_number);
+
+        //Button click listeners
+        Button addQuantityButton = findViewById(R.id.edit_button_add_quantity);
+        Button subtractQuantityButton = findViewById(R.id.edit_button_subtract_quantity);
+
+        addQuantityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mQuantity++;
+            }
+        });
+
+        subtractQuantityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mQuantity > 0) {
+                    mQuantity--;
+                }
+            }
+        });
     }
 
     private void saveProduct() {
@@ -111,6 +134,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 //Otherwise the save was successful.
                 makeToast("Product saved successfully!");
             }
+
         } else {
             //Update existing product
             int updatedRows = getContentResolver().update(mCurrentInventoryUri, values, null, null);
@@ -155,11 +179,18 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         switch (item.getItemId()) {
             //Save option clicked
             case R.id.edit_menu_save:
-                //Save product to database
-                saveProduct();
-                //Exit activity
-                finish();
-                return true;
+                try {
+                    //Save product to database
+                    saveProduct();
+                    //Exit activity
+                    finish();
+                    return true;
+                } catch (NumberFormatException nfe){
+                    makeToast("Please enter a valid number");
+                } catch (IllegalArgumentException iae) {
+                    makeToast(String.valueOf(iae));
+                }
+            break;
             case R.id.edit_menu_delete:
                 //Show delete confirmation dialog
                 showDeleteConfirmationDialog();
@@ -310,8 +341,8 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
 
             //Update Edit Views
             mProductNameEditText.setText(productName);
-            mProductPriceEditText.setText(productPrice);
-            mProductQuantityEditText.setText(productQuantity);
+            mProductPriceEditText.setText(Integer.toString(productPrice));
+            mProductQuantityEditText.setText(Integer.toString(productQuantity));
             mSupplierNameEditText.setText(supplierName);
             mSupplierNumberEditText.setText(supplierNumber);
         }
