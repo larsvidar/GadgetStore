@@ -333,7 +333,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage(getString(R.string.dialog_delete_product));
-        alertBuilder.setPositiveButton(getString(R.string.dialog_delete_all_positive), new DialogInterface.OnClickListener() {
+        alertBuilder.setPositiveButton(getString(R.string.dialog_delete_product_positive), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 //User pressed Delete button.

@@ -89,7 +89,7 @@
                 android:id="@+id/edit_supplier_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="edit_hint_supplier_name" />
+                android:hint="@string/edit_hint_supplier_name" />
 
             <EditText
                 android:id="@+id/edit_supplier_number"
