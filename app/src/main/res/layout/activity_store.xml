@@ -52,6 +52,6 @@
         android:text="Add product"
         android:background="@color/colorAccent"
         android:padding="8dp"
-        android:textColor="@color/primaryText" />
+        android:textColor="@color/textPrimary" />
 
 </RelativeLayout>

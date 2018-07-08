@@ -49,54 +49,7 @@
 
     </LinearLayout>
 
-    <!-- Supplier name and phone number -->
-    <!--<LinearLayout-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="2"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_marginTop="12dp">-->
-        <!---->
-        <!--&lt;!&ndash;Supplier name &ndash;&gt;-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Supplier: " />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/supplier_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--tools:text="GadgetStore" />-->
-
-        <!--</LinearLayout>-->
-        <!---->
-        <!--&lt;!&ndash; Supplier phone number &ndash;&gt;-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Phone: "/>-->
-    <!---->
-            <!--<TextView-->
-                <!--android:id="@+id/supplier_number"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--tools:text="555-3233"/>-->
-
-        <!--</LinearLayout>-->
-
-    <!--</LinearLayout>-->
-
+    <!-- Quantity -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -134,14 +87,18 @@
 
     </LinearLayout>
 
+    <!-- Sale button -->
     <Button
         android:id="@+id/store_sale_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
         android:text="Sale!"
         android:focusable="false"
-        android:focusableInTouchMode="false"/>
+        android:focusableInTouchMode="false"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/textLight"/>
 
 </LinearLayout>

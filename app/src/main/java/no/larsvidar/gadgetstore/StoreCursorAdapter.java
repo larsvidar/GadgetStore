@@ -35,8 +35,6 @@ public class StoreCursorAdapter extends CursorAdapter {
         TextView productNameView = view.findViewById(R.id.product_name);
         TextView productPriceView = view.findViewById(R.id.product_price);
         final TextView productQuantityView = view.findViewById(R.id.product_quantity);
-        TextView supplierNameView = view.findViewById(R.id.supplier_name);
-        TextView supplierNumberView = view.findViewById(R.id.supplier_number);
 
         //Find the relevant product attribute columns
         int idColumnIndex = cursor.getColumnIndex(InventoryEntry._ID);
@@ -51,15 +49,12 @@ public class StoreCursorAdapter extends CursorAdapter {
         String productName = cursor.getString(productNameColumnIndex);
         String productPrice = cursor.getString(productPriceColumnIndex);
         String productQuantity = cursor.getString(productQuantityColumnIndex);
-        String supplierName = cursor.getString(supplierNameColumnIndex);
-        final String supplierNumber = cursor.getString(supplierNumberColumnIndex);
 
         ///Update TextViews with the current attributes
         productNameView.setText(productName);
         productPriceView.setText(productPrice);
         productQuantityView.setText(productQuantity);
-        supplierNameView.setText(supplierName);
-        supplierNumberView.setText(supplierNumber);
+
 
 
         //Make OnClickListener for Sale-button.
