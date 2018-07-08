@@ -2,19 +2,37 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/product_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/product_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Gadget"/>
+
+        <TextView
+            android:id="@+id/product_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$45 3 items"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/store_sale_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Sale!"/>
 
 </LinearLayout>

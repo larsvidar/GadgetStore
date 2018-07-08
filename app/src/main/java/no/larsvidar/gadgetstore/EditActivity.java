@@ -73,23 +73,42 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierNumberEditText = findViewById(R.id.edit_supplier_number);
 
-        //Button click listeners
+        mProductQuantityEditText.setText(Integer.toString(mQuantity));
+
+        //Set up OnTouchListener for each EditView.
+        mProductNameEditText.setOnTouchListener(mTouchListener);
+        mProductPriceEditText.setOnTouchListener(mTouchListener);
+        mProductQuantityEditText.setOnTouchListener(mTouchListener);
+        mSupplierNameEditText.setOnTouchListener(mTouchListener);
+        mSupplierNumberEditText.setOnTouchListener(mTouchListener);
+
+        //Assign Button views to variables
         Button addQuantityButton = findViewById(R.id.edit_button_add_quantity);
         Button subtractQuantityButton = findViewById(R.id.edit_button_subtract_quantity);
 
+        //Set up OnTouchListener for buttons
+        addQuantityButton.setOnTouchListener(mTouchListener);
+        subtractQuantityButton.setOnTouchListener(mTouchListener);
+
+        //Set Add Button ClickListener
         addQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mQuantity++;
+                mProductQuantityEditText.setText(Integer.toString(mQuantity));
+                Log.i("INFO", "ADD");
             }
         });
 
+        //Set Subtract Button Click Listener
         subtractQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mQuantity > 0) {
                     mQuantity--;
+                    mProductQuantityEditText.setText(Integer.toString(mQuantity));
                 }
+                Log.i("INFO", "SUBTRACT");
             }
         });
     }
@@ -188,9 +207,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 } catch (NumberFormatException nfe){
                     makeToast("Please enter a valid number");
                 } catch (IllegalArgumentException iae) {
-                    makeToast(String.valueOf(iae));
+                    makeToast(iae.getMessage());
                 }
-            break;
+                break;
             case R.id.edit_menu_delete:
                 //Show delete confirmation dialog
                 showDeleteConfirmationDialog();
@@ -210,6 +229,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                         NavUtils.navigateUpFromSameTask(EditActivity.this);
                     }
                 };
+
+                showUnsavedChangesDialog(discardButtonClickListener);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -335,14 +357,14 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             //Extract values from cursor
             String productName = data.getString(productNameColumnIndex);
             int productPrice = data.getInt(productPriceColumnIndex);
-            int productQuantity = data.getInt(productQuantityColumnIndex);
+            mQuantity = data.getInt(productQuantityColumnIndex);
             String supplierName = data.getString(supplierNameColumnIndex);
             String supplierNumber = data.getString(supplierNumberColumnIndex);
 
             //Update Edit Views
             mProductNameEditText.setText(productName);
             mProductPriceEditText.setText(Integer.toString(productPrice));
-            mProductQuantityEditText.setText(Integer.toString(productQuantity));
+            mProductQuantityEditText.setText(Integer.toString(mQuantity));
             mSupplierNameEditText.setText(supplierName);
             mSupplierNumberEditText.setText(supplierNumber);
         }
@@ -356,5 +378,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mProductQuantityEditText.setText("");
         mSupplierNameEditText.setText("");
         mSupplierNumberEditText.setText("");
+
+        mQuantity = 0;
     }
 }

@@ -2,9 +2,11 @@ package no.larsvidar.gadgetstore;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
@@ -47,5 +49,13 @@ public class StoreCursorAdapter extends CursorAdapter {
         productNameView.setText(productName);
         productInfoView.setText("$" + productPrice + " ");
         productInfoView.append(productQuantity + " items");
+
+        Button saleButton = view.findViewById(R.id.store_sale_button);
+        saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("INFO", "Sale-button was pressed!");
+            }
+        });
     }
 }
