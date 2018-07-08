@@ -11,8 +11,8 @@
     <style name="EditCategory">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">sans-serif-thick</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textSize">@dimen/text_edit_category</item>
+        <item name="android:layout_marginTop">@dimen/edit_category_margin_top</item>
     </style>
 
     <style name="EditDetails">
@@ -24,9 +24,9 @@
     </style>
 
     <style name="QuantityButtons">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:textSize">32sp</item>
+        <item name="android:layout_width">@dimen/button_size</item>
+        <item name="android:layout_height">@dimen/button_size</item>
+        <item name="android:textSize">@dimen/text_edit_quantity_buttons</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/textLight</item>
     </style>

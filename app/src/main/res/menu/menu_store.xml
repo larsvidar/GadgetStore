@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/menu_store_delete"
-        android:title="Delete all products"
+        android:title="@string/store_menu_delete_all"
         app:showAsAction="never" />
 
 </menu>

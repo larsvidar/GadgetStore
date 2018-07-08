@@ -55,8 +55,6 @@ public class StoreCursorAdapter extends CursorAdapter {
         productPriceView.setText(productPrice);
         productQuantityView.setText(productQuantity);
 
-
-
         //Make OnClickListener for Sale-button.
         Button saleButton = view.findViewById(R.id.store_sale_button);
         saleButton.setOnClickListener(new View.OnClickListener() {
@@ -71,20 +69,26 @@ public class StoreCursorAdapter extends CursorAdapter {
                     if (decreaseQuantity(id, newQuantity, context) != 0) {
                         //If successful, update quantity Text View, and show success toast.
                         productQuantityView.setText(Integer.toString(newQuantity));
-                        makeToast(context, "Sale successfully registered");
+                        makeToast(context, context.getString(R.string.sale_button_success));
                     } else {
                         //If not, show error.
-                        makeToast(context, "Error: Sale did not register!");
+                        makeToast(context, context.getString(R.string.sale_button_fail));
                     }
                 //If quantity has reach 0, show Out of stock toast.
                 } else {
-                    makeToast(context, "This item is out of stock!");
+                    makeToast(context, context.getString(R.string.sale_button_out_of_stock));
                 }
             }
         });
     }
 
-
+    /**
+     * Method for decreasing quantity when sale-button is pressed.
+     * @param id
+     * @param currentQuantity
+     * @param context
+     * @return
+     */
     public int decreaseQuantity(int id, int currentQuantity, Context context) {
         //Making ContentValues for ProductQuantity only.
         ContentValues values = new ContentValues();
@@ -97,6 +101,11 @@ public class StoreCursorAdapter extends CursorAdapter {
         return rows;
     }
 
+    /**
+     * Method for making toast messages
+     * @param context
+     * @param text to be displayed
+     */
     public void makeToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }

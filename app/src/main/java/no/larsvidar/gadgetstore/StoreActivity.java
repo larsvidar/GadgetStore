@@ -24,12 +24,19 @@ import android.widget.Toast;
 
 import no.larsvidar.gadgetstore.data.StoreContract.InventoryEntry;
 
+/**
+ * Display list of products from database
+ */
 public class StoreActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //*** Variables ***
     public static final int STORE_LOADER = 0;
     StoreCursorAdapter mCursorAdapter;
 
+    /**
+     * OnCreate method
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,11 +83,19 @@ public class StoreActivity extends AppCompatActivity implements LoaderManager.Lo
         getLoaderManager().initLoader(STORE_LOADER, null, this);
     }
 
+    /**
+     * Method for deleting all products in database.
+     */
     private void deleteAllProducts() {
         getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
-        makeToast("All products deleted!");
+        makeToast(getString(R.string.toast_all_products_deleted));
     }
 
+    /**
+     * Creates options menu in app bar.
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate menu from menu_store.xml
@@ -88,21 +103,37 @@ public class StoreActivity extends AppCompatActivity implements LoaderManager.Lo
         return true;
     }
 
+    /**
+     * Method for detecting what option was pressed
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Making switch-statement in case more menu items are added later.
         switch (item.getItemId()) {
             case R.id.menu_store_delete:
+                //Option for deleting all products selected.
                 showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Method for making Toast messages
+     * @param text to be displayed.
+     */
     private void makeToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT);
     }
 
+    /**
+     * OnCreateLoader method
+     * @param id
+     * @param args
+     * @return
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //Create projection
@@ -119,30 +150,47 @@ public class StoreActivity extends AppCompatActivity implements LoaderManager.Lo
         return new CursorLoader(this, InventoryEntry.CONTENT_URI, projection, null, null, null);
     }
 
+    /**
+     * OnLoadFinish method
+     * @param loader
+     * @param data
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         //Updating cursor
         mCursorAdapter.swapCursor(data);
     }
 
+    /**
+     * OnLoaderReset method
+     * @param loader
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         //Empty cursor.
         mCursorAdapter.swapCursor(null);
     }
 
+    /**
+     * Method for showing confirmation dialog when deleting all products
+     */
     private void showDeleteConfirmationDialog() {
+        //Create alert dialog
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage("Are you sure you want to delete ALL products?");
-        alertBuilder.setPositiveButton("Delete everything!", new DialogInterface.OnClickListener() {
+        alertBuilder.setMessage(getString(R.string.dialog_delete_all));
+
+        //Set up confirm-button
+        alertBuilder.setPositiveButton(getString(R.string.dialog_delete_all_positive), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 //User pressed Delete button.
                 deleteAllProducts();
-                makeToast("Database is now empty!");
+                makeToast(getString(R.string.dialog_delete_all_confirmation));
             }
         });
-        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+        //Set up cancel-button
+        alertBuilder.setNegativeButton(getString(R.string.dialog_delete_all_negative), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 //User clicked the Cancel button

@@ -3,7 +3,6 @@ package no.larsvidar.gadgetstore.data;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,8 +11,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import no.larsvidar.gadgetstore.R;
 import no.larsvidar.gadgetstore.data.StoreContract.InventoryEntry;
 
+/**
+ *  ContentProvider for GadgetStore app
+ */
 public class StoreProvider extends ContentProvider {
 
     //*** Variables ***
@@ -28,13 +31,17 @@ public class StoreProvider extends ContentProvider {
     //Static initializer
     static {
         //Adding URI codes to URI Matcher.
-        sUriMatcher.addURI(StoreContract.CONTENT_AUTHORITY,  StoreContract.PATH_INVENTORY, INVENTORY);
+        sUriMatcher.addURI(StoreContract.CONTENT_AUTHORITY, StoreContract.PATH_INVENTORY, INVENTORY);
         sUriMatcher.addURI(StoreContract.CONTENT_AUTHORITY, StoreContract.PATH_INVENTORY + "/#", INVENTORY_ID);
     }
 
     //Database helper object.
     private StoreDbHelper mDatabaseHelper;
 
+    /**
+     * OnCreate method
+     * @return true
+     */
     @Override
     public boolean onCreate() {
         //Initialing the database helper object.
@@ -42,6 +49,15 @@ public class StoreProvider extends ContentProvider {
         return true;
     }
 
+    /**
+     * Method for querying the database.
+     * @param uri
+     * @param projection
+     * @param selection
+     * @param selectionArgs
+     * @param sortOrder
+     * @return
+     */
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
@@ -62,12 +78,12 @@ public class StoreProvider extends ContentProvider {
             case INVENTORY_ID:
                 //Setting up to query a specific ID
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 //Queries a specific ID
                 cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException("Query error: Can not query unknown uri " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.query_error) + " " + uri);
         }
 
         //Set notification URI on the cursor
@@ -87,7 +103,8 @@ public class StoreProvider extends ContentProvider {
             case INVENTORY_ID:
                 return InventoryEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+                throw new IllegalStateException(getContext().getString(R.string.get_type_error_1)
+                        + " " + uri + " " + getContext().getString(R.string.get_type_error_2) + " " + match);
         }
     }
 
@@ -99,27 +116,25 @@ public class StoreProvider extends ContentProvider {
             case INVENTORY:
                 return insertProduct(uri, values);
             default:
-                throw new IllegalArgumentException("Database insertion not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.insert_error) + " " + uri);
         }
     }
 
     private Uri insertProduct(Uri uri, ContentValues values) {
-        //***** Validating inputs *****
-
+        /***** Validating inputs *****/
 
         //Validate ProductName input
         //Checking that ProductName is not  null
         String productName = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
         if (productName == null || productName.isEmpty()) {
-            throw new IllegalArgumentException("Please type in a Product name");
+            throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_name_null));
         }
-
 
         //Validate ProductPrice input
         //Checking that ProductPrice is not  null
         String productPrice = values.getAsString(InventoryEntry.COLUMN_PRODUCT_PRICE);
         if (productPrice == null || productPrice.isEmpty()) {
-            throw new IllegalArgumentException("Please type in a Product price");
+            throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_price_null));
         }
 
         //Checking that ProductPrice is a number
@@ -132,18 +147,17 @@ public class StoreProvider extends ContentProvider {
 
         //Checking that ProductPrice is not negative
         if (price < 0) {
-            throw new IllegalArgumentException("You can not set a negative price");
+            throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_price_negative));
         }
-
 
         //Validate Product Quantity input
         //Checking that ProductQuantity is not  null
         String productQuantity = values.getAsString(InventoryEntry.COLUMN_PRODUCT_QUANTITY);
         if (productQuantity == null || productQuantity.isEmpty()) {
-            throw new IllegalArgumentException("Please type in quantity");
+            throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_quantity_null));
         }
 
-        //Checking that ProductPrice is a number
+        //Checking that ProductQuantity is a number
         int quantity;
         try {
             quantity = Integer.parseInt(productQuantity);
@@ -153,25 +167,24 @@ public class StoreProvider extends ContentProvider {
 
         //Checking that ProductPrice is not negative
         if (quantity < 0) {
-            throw new IllegalArgumentException("You can not set a negative quantity");
+            throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_quantity_negative));
         }
-
 
         //Validate SupplierName
         //Checking that SupplierName is not  null
         String supplierName = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NAME);
         if (supplierName == null || supplierName.isEmpty()) {
-            throw new IllegalArgumentException("Please type in a Supplier name");
+            throw new IllegalArgumentException(getContext().getString(R.string.validate_error_supplier_name_null));
         }
 
         //Validate SupplierNumber
         //Checking that SupplierNumber is not  null
         String supplierNumber = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NUMBER);
         if (supplierNumber == null || supplierNumber.isEmpty()) {
-            throw new IllegalArgumentException("Please type in a Supplier phone number");
+            throw new IllegalArgumentException(getContext().getString(R.string.validate_error_supplier_number_null));
         }
 
-
+        /***** Insert to database *****/
         //Get writable database
         SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
 
@@ -206,11 +219,11 @@ public class StoreProvider extends ContentProvider {
             case INVENTORY_ID:
                 //Delete specific id row.
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 deletedRows = database.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Could not delete " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.delete_error) + " " + uri);
         }
 
         //If rows were deleted, notify that data has changed.
@@ -230,27 +243,24 @@ public class StoreProvider extends ContentProvider {
                 return updateProduct(uri, values, selection, selectionArgs);
             case INVENTORY_ID:
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateProduct(uri, values, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException("Update is not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.update_error) + " " + uri);
         }
     }
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        Log.i("****URI****", String.valueOf(uri));
-        //***** Validating inputs *****
-
+        /***** Validating inputs *****/
         //Validate ProductName input if key is present
         if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_NAME)) {
 
             //Checking that ProductName is not  null
             String productName = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
             if (productName == null || productName.isEmpty()) {
-                throw new IllegalArgumentException("Please type in a Product name");
+                throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_name_null));
             }
         }
-
 
         //Validate ProductPrice input if key is present
         if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_PRICE)) {
@@ -258,7 +268,7 @@ public class StoreProvider extends ContentProvider {
             //Checking that ProductPrice is not  null
             String productPrice = values.getAsString(InventoryEntry.COLUMN_PRODUCT_PRICE);
             if (productPrice == null || productPrice.isEmpty()) {
-                throw new IllegalArgumentException("Please type in a Product price");
+                throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_price_null));
             }
 
             //Checking that ProductPrice is a number
@@ -271,10 +281,9 @@ public class StoreProvider extends ContentProvider {
 
             //Checking that ProductPrice is not negative
             if (price < 0) {
-                throw new IllegalArgumentException("You can not set a negative price");
+                throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_price_negative));
             }
         }
-
 
         //Validate Product Quantity input if key is present
         if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_QUANTITY)) {
@@ -282,7 +291,7 @@ public class StoreProvider extends ContentProvider {
             //Checking that ProductQuantity is not  null
             String productQuantity = values.getAsString(InventoryEntry.COLUMN_PRODUCT_QUANTITY);
             if (productQuantity == null || productQuantity.isEmpty()) {
-                throw new IllegalArgumentException("Please type in quantity");
+                throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_quantity_null));
             }
 
             //Checking that ProductQuantity is a number
@@ -295,10 +304,9 @@ public class StoreProvider extends ContentProvider {
 
             //Checking that ProductPrice is not negative
             if (quantity < 0) {
-                throw new IllegalArgumentException("You can not set a negative quantity");
+                throw new IllegalArgumentException(getContext().getString(R.string.validate_error_product_quantity_negative));
             }
         }
-
 
         //Validate SupplierName if key is present
         if (values.containsKey(InventoryEntry.COLUMN_SUPPLIER_NAME)) {
@@ -306,7 +314,7 @@ public class StoreProvider extends ContentProvider {
             //Checking that SupplierName is not  null
             String supplierName = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NAME);
             if (supplierName == null || supplierName.isEmpty()) {
-                throw new IllegalArgumentException("Please type in a Supplier name");
+                throw new IllegalArgumentException(getContext().getString(R.string.validate_error_supplier_name_null));
             }
         }
 
@@ -316,10 +324,11 @@ public class StoreProvider extends ContentProvider {
             //Checking that SupplierNumber is not  null
             String supplierNumber = values.getAsString(InventoryEntry.COLUMN_SUPPLIER_NUMBER);
             if (supplierNumber == null || supplierNumber.isEmpty()) {
-                throw new IllegalArgumentException("Please type in a Supplier phone number");
+                throw new IllegalArgumentException(getContext().getString(R.string.validate_error_supplier_number_null));
             }
         }
 
+        /***** Updating database *****/
         //Check if there are any values to update
         if (values.size() == 0) {
             return 0;

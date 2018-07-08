@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/edit_padding"
     tools:context=".EditActivity">
 
     <!-- Product Info category -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="48dp">
+        android:layout_marginBottom="@dimen/category_bottom_margin"
+        android:orientation="horizontal">
 
         <!-- Product Info label -->
         <TextView
+            style="@style/EditCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Product Info"
-            style="@style/EditCategory"/>
+            android:text="@string/edit_category_product_info" />
 
         <!-- Product Info inputs -->
-        <LinearLayout
-            style="@style/EditDetails" >
+        <LinearLayout style="@style/EditDetails">
 
             <EditText
                 android:id="@+id/edit_product_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Product name"/>
+                android:hint="@string/edit_hint_product_name" />
 
             <EditText
                 android:id="@+id/edit_product_price"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Price"/>
+                android:hint="@string/edit_hint_price"
+                android:inputType="number" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,20 +45,24 @@
 
                 <Button
                     android:id="@+id/edit_button_subtract_quantity"
-                    android:text="-"
-                    style="@style/QuantityButtons"/>
+                    style="@style/QuantityButtons"
+                    android:layout_weight="1"
+                    android:text="-" />
 
                 <EditText
                     android:id="@+id/edit_product_quantity"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:hint="Quantity" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    android:hint="@string/edit_hint_quantity"
+                    android:inputType="number"
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/edit_button_add_quantity"
-                    android:text="+"
-                    style="@style/QuantityButtons"/>
+                    style="@style/QuantityButtons"
+                    android:layout_weight="1"
+                    android:text="+" />
 
             </LinearLayout>
 
@@ -73,36 +77,37 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/EditCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            style="@style/EditCategory"
-            android:text="Supplier Info"/>
+            android:text="@string/edit_category_supplier_info" />
 
-        <LinearLayout
-            style="@style/EditDetails">
+        <LinearLayout style="@style/EditDetails">
 
             <EditText
                 android:id="@+id/edit_supplier_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Supplier name" />
+                android:hint="edit_hint_supplier_name" />
 
             <EditText
                 android:id="@+id/edit_supplier_number"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Supplier number" />
+                android:layout_marginBottom="@dimen/category_end_margin"
+                android:hint="@string/edit_hint_supplier_number"
+                android:inputType="phone" />
 
             <Button
                 android:id="@+id/edit_call_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textLight"
                 android:background="@color/colorPrimary"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="Call supplier"/>
+                android:paddingLeft="@dimen/call_button_padding"
+                android:paddingRight="@dimen/call_button_padding"
+                android:text="@string/call_button"
+                android:textColor="@color/textLight" />
 
         </LinearLayout>
 

@@ -4,6 +4,9 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * API contract for GadgetStore app
+ */
 public final class StoreContract {
 
     //Empty constructor

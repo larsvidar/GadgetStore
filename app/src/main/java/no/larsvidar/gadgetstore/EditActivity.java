@@ -26,19 +26,27 @@ import android.widget.Toast;
 
 import no.larsvidar.gadgetstore.data.StoreContract.InventoryEntry;
 
+/**
+ * Create new product, or update existing product
+ */
 public class EditActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //*** Variables ***
     private static final int EXISTING_INVENTORY_LOADER = 0;
 
     private Uri mCurrentInventoryUri;
+
+    //Assigning EditText Views to variables
     private EditText mProductNameEditText;
     private EditText mProductPriceEditText;
     private EditText mProductQuantityEditText;
     private EditText mSupplierNameEditText;
     private EditText mSupplierNumberEditText;
 
+    //Variable to keep track of changes in product.
     private boolean mHasProductChanged = false;
+
+    //Variable to keep track of Quantity
     private int mQuantity = 0;
 
     //OnTouchListener listening for any user interaction on a view.
@@ -50,20 +58,25 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     };
 
+    /**
+     * OnCreate method
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        //Creating new intent
         Intent intent = getIntent();
         mCurrentInventoryUri = intent.getData();
 
         //Determining if we should be in add or update mode.
         if (mCurrentInventoryUri == null) {
-            setTitle("Add product");
+            setTitle(getString(R.string.add_product_mode));
             invalidateOptionsMenu();
         } else {
-            setTitle("Edit product");
+            setTitle(getString(R.string.edit_product_mode));
             getLoaderManager().initLoader(EXISTING_INVENTORY_LOADER, null, this);
         }
 
@@ -74,7 +87,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierNumberEditText = findViewById(R.id.edit_supplier_number);
 
-
+        //Set number in Quntity Edit View.
         mProductQuantityEditText.setText(Integer.toString(mQuantity));
 
         //Set up OnTouchListener for each EditView.
@@ -98,7 +111,6 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onClick(View v) {
                 mQuantity++;
                 mProductQuantityEditText.setText(Integer.toString(mQuantity));
-                Log.i("INFO", "ADD");
             }
         });
 
@@ -110,10 +122,10 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                     mQuantity--;
                     mProductQuantityEditText.setText(Integer.toString(mQuantity));
                 }
-                Log.i("INFO", "SUBTRACT");
             }
         });
 
+        //Make dial-button open phone-app
         Button callSupplierButton = findViewById(R.id.edit_call_button);
         callSupplierButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +136,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
+    /**
+     * Method for saving new or updated product to database
+     */
     private void saveProduct() {
         //Read data from input fields
         String productNameString = mProductNameEditText.getText().toString().trim();
@@ -159,10 +174,10 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             //Show toast
             if (newUri == null) {
                 //If newUri is null, something went wrong with the save.
-                makeToast("Something went wrong when saving new product!");
+                makeToast(getString(R.string.add_product_fail));
             } else {
                 //Otherwise the save was successful.
-                makeToast("Product saved successfully!");
+                makeToast(getString(R.string.add_product_success));
             }
 
         } else {
@@ -172,18 +187,27 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             //Show toast
             if (updatedRows == 0) {
                 //If no rows where affected, something went wrong with the update.
-                makeToast("Something went wrong when updating new product!");
+                makeToast(getString(R.string.edit_product_fail));
             } else {
                 //Otherwise the save was successful.
-                makeToast("Product updated successfully!");
+                makeToast(getString(R.string.edit_product_success));
             }
         }
     }
 
+    /**
+     * Method for making Toast messages
+     * @param text to be displayed
+     */
     private void makeToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Creates options menu in app bar
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Add menu to the app bar.
@@ -191,6 +215,11 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         return true;
     }
 
+    /**
+     * Hides delete-option when adding a new product.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -203,6 +232,11 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         return true;
     }
 
+    /**
+     * Method for determening which option has been pressed
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Actions for each menu item.
@@ -240,13 +274,16 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                         NavUtils.navigateUpFromSameTask(EditActivity.this);
                     }
                 };
-
+                //Warn user that there are unsaved changes.
                 showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Triggered when back is pressed on phone.
+     */
     @Override
     public void onBackPressed() {
         //Allow back press if there are no unsaved changes.
@@ -263,17 +300,20 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 finish();
             }
         };
-
         //Show warning dialog for unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
+    /**
+     * Shows warning dialog when trying to exit when there are unsaved changes.
+     * @param discardButtonClickListener
+     */
     private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
         //Create an alert dialog for unsaved changes.
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage("Do you want to discard unsaved changes?");
-        alertBuilder.setPositiveButton("Exit", discardButtonClickListener);
-        alertBuilder.setNegativeButton("Keep editing", new DialogInterface.OnClickListener() {
+        alertBuilder.setMessage(getString(R.string.dialog_unsaved_changes));
+        alertBuilder.setPositiveButton(getString(R.string.dialog_unsaved_changes_positive), discardButtonClickListener);
+        alertBuilder.setNegativeButton(getString(R.string.dialog_unsaved_changes_negative), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (dialog != null) {
@@ -282,23 +322,25 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             }
         });
-
         //Show the AlertDialog
         AlertDialog alertDialog = alertBuilder.create();
         alertDialog.show();
     }
 
+    /**
+     * Shows warning when deleting product
+     */
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage("Do you want to delete this product?");
-        alertBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        alertBuilder.setMessage(getString(R.string.dialog_delete_product));
+        alertBuilder.setPositiveButton(getString(R.string.dialog_delete_all_positive), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 //User pressed Delete button.
                 deleteProduct();
             }
         });
-        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertBuilder.setNegativeButton(getString(R.string.dialog_delete_product_negative), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 //User clicked the Cancel button
@@ -307,12 +349,14 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             }
         });
-
         //Show the AlertDialog
         AlertDialog alertDialog = alertBuilder.create();
         alertDialog.show();
     }
 
+    /**
+     * Method for deleting specific product
+     */
     private void deleteProduct() {
         //Check if there is an existing product
         if (mCurrentInventoryUri != null) {
@@ -322,18 +366,33 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             //Show toast
             if (deletedRows == 0) {
                 //If no rows were deleted, there was a problem.
-                makeToast("There was a problem deleting the product.");
+                makeToast(getString(R.string.dialog_delete_product_confirmation_fail));
             } else {
                 //Otherwise the deletion was successful.
-                makeToast("Product deleted successfully!");
+                makeToast(getString(R.string.dialog_delete_product_confirmation_success));
             }
         }
-
         //Close activity
         finish();
     }
 
+    /**
+     * Method for starting Dial intent
+     * @param context
+     * @param number to be called
+     */
+    public void dialNumber(Context context, String number) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + number));
+        context.startActivity(intent);
+    }
 
+    /**
+     * OnCreateLoader
+     * @param id
+     * @param args
+     * @return
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //Make a projection with all product attributes.
@@ -349,6 +408,11 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         return new CursorLoader(this, mCurrentInventoryUri, projection, null, null, null);
     }
 
+    /**
+     * OnLoadFinish
+     * @param loader
+     * @param data
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         //Return if the cursor is empty
@@ -381,6 +445,10 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    /**
+     * OnLoaderReset
+     * @param loader
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         //Clear all data from loader.
@@ -391,11 +459,5 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mSupplierNumberEditText.setText("");
 
         mQuantity = 0;
-    }
-
-    public void dialNumber(Context context, String number) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + number));
-        context.startActivity(intent);
     }
 }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="@dimen/item_store_padding">
 
     <!-- Product name and Price -->
     <LinearLayout
@@ -21,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:textSize="24dp"
-            tools:text="Gadget"/>
+            android:textSize="@dimen/text_list_product"
+            tools:text="Gadget" />
 
         <!-- Price -->
         <LinearLayout
@@ -33,17 +32,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price: $"
                 android:fontFamily="sans-serif-light"
-                android:textSize="16sp"/>
+                android:text="@string/item_price_label"
+                android:textSize="@dimen/text_list_price" />
 
             <TextView
                 android:id="@+id/product_price"
-                android:fontFamily="sans-serif"
-                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="355"/>
+                android:fontFamily="sans-serif"
+                android:textSize="@dimen/text_list_price"
+                tools:text="355" />
 
         </LinearLayout>
 
@@ -52,17 +51,17 @@
     <!-- Quantity -->
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/item_stock_margin_top"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:textSize="16sp"
-            android:text="Stock: "/>
+            android:text="@string/item_stock_label"
+            android:textSize="@dimen/text_list_stock" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -73,15 +72,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:textSize="16dp"
-                tools:text="3"/>
+                android:textSize="@dimen/text_list_stock"
+                tools:text="3" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:fontFamily="sans-serif"
-                android:textSize="16dp"
-                android:text=" items"/>
+                android:text="@string/item_stock_items"
+                android:textSize="@dimen/text_list_stock" />
 
         </LinearLayout>
 
@@ -92,13 +92,13 @@
         android:id="@+id/store_sale_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/item_button_margin_left"
+        android:layout_marginTop="@dimen/item_button_margin_top"
         android:layout_weight="2"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:text="Sale!"
+        android:background="@color/colorPrimary"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/textLight"/>
+        android:text="@string/item_sale_button"
+        android:textColor="@color/textLight" />
 
 </LinearLayout>

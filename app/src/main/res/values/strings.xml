@@ -1,3 +1,78 @@
 <resources>
     <string name="app_name">The Gadget Store</string>
+
+    <!-- Error messages -->
+    <string name="query_error">Query error: Can not query unknown uri</string>
+    <string name="get_type_error_1">Unknown URI</string>
+    <string name="get_type_error_2">with match</string>
+    <string name="insert_error">Database insertion not supported for</string>
+    <string name="delete_error">Could not delete</string>
+    <string name="update_error">Update is not supported for</string>
+
+    <string name="validate_error_product_name_null">Please type in a Product name</string>
+    <string name="validate_error_product_price_null">Please type in a Product price</string>
+    <string name="validate_error_product_price_negative">You can not set a negative price</string>
+    <string name="validate_error_product_quantity_null">Please type in quantity</string>
+    <string name="validate_error_product_quantity_negative">You can not set a negative quantity</string>
+    <string name="validate_error_supplier_name_null">Please type in a Supplier name</string>
+    <string name="validate_error_supplier_number_null">Please type in a Supplier phone number</string>
+
+    <!-- StoreActivity -->
+    <string name="toast_all_products_deleted">All products are deleted!</string>
+    <string name="dialog_delete_all">Are you sure you want to delete ALL products?</string>
+    <string name="dialog_delete_all_positive">Delete everything!</string>
+    <string name="dialog_delete_all_negative">Cancel</string>
+    <string name="dialog_delete_all_confirmation">Database is now empty!</string>
+
+    <!--EditActivity-->
+    <string name="add_product_mode">Add new product</string>
+    <string name="add_product_fail">Something went wrong when saving new product!</string>
+    <string name="add_product_success">Product saved successfully!</string>
+
+    <string name="edit_product_mode">Edit product</string>
+    <string name="edit_product_fail">Something went wrong when updating new product!</string>
+    <string name="edit_product_success">Product updated successfully!</string>
+
+    <string name="dialog_unsaved_changes">Do you want to discard unsaved changes?</string>
+    <string name="dialog_unsaved_changes_positive">Exit</string>
+    <string name="dialog_unsaved_changes_negative">Keep editing!</string>
+
+    <string name="dialog_delete_product">"Do you want to delete this product?"</string>
+    <string name="dialog_delete_product_positive">Delete</string>
+    <string name="dialog_delete_product_negative">Exit</string>
+    <string name="dialog_delete_product_confirmation_success">Product deleted successfully!</string>
+    <string name="dialog_delete_product_confirmation_fail">There was a problem deleting the product.</string>
+
+    <!-- StoreCursorAdapter -->
+    <string name="sale_button_success">Sale successfully registered</string>
+    <string name="sale_button_fail">Error: Sale did not register!</string>
+    <string name="sale_button_out_of_stock">This item is out of stock!</string>
+
+
+    <!-- Activity_store.xml -->
+    <string name="empty_view_title">Inventory is empty!</string>
+    <string name="empty_view_text">Add a product by clicking the Add Product button below.</string>
+    <string name="add_product_button">Add product</string>
+
+    <!-- Activity_edit.xml -->
+    <string name="edit_category_product_info">Product info</string>
+    <string name="edit_hint_product_name">Product name</string>
+    <string name="edit_hint_price">Price</string>
+    <string name="edit_hint_quantity">Quantity</string>
+    <string name="edit_category_supplier_info">Supplier info</string>
+    <string name="edit_hint_supplier_name">Supplier name</string>
+    <string name="edit_hint_supplier_number">Supplier phone</string>
+    <string name="call_button">Call supplier</string>
+
+    <!-- Store_item.xml -->
+    <string name="item_price_label">Price: $</string>
+    <string name="item_stock_label">Stock: </string>
+    <string name="item_stock_items"> items</string>
+    <string name="item_sale_button">Sale!</string>
+
+    <!-- Menus -->
+    <string name="edit_menu_save"></string>
+    <string name="edit_menu_delete">Delete</string>
+    <string name="store_menu_delete_all">Delete all products</string>
+
 </resources>
