@@ -10,7 +10,8 @@
     <ListView
         android:id="@+id/inventory_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="72dp"/>
 
     <!-- Empty View for the list -->
     <RelativeLayout
@@ -23,17 +24,34 @@
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nothing to show!" />
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:text="Inventory is empty!" />
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/empty_title_text"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="18sp"
+            android:text="Add a product by clicking the Add Product button below." />
 
     </RelativeLayout>
 
     <!-- Add Product button -->
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/add_product_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:text="Add product"
+        android:background="@color/colorAccent"
+        android:padding="8dp"
+        android:textColor="@color/primaryText" />
 
 </RelativeLayout>

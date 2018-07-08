@@ -36,9 +36,8 @@ public class StoreActivity extends AppCompatActivity implements LoaderManager.Lo
         setContentView(R.layout.activity_store);
 
         //Set opp Add Product button
-        FloatingActionButton addProductButton = findViewById(R.id.add_product_button);
+        Button addProductButton = findViewById(R.id.add_product_button);
         addProductButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StoreActivity.this, EditActivity.class);

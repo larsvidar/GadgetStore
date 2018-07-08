@@ -8,78 +8,138 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
+    <!-- Product name and Price -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:orientation="vertical">
 
+        <!-- Product name -->
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="24dp"
+            tools:text="Gadget"/>
+
+        <!-- Price -->
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Gadget"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:text="Price: $"/>
+                android:text="Price: $"
+                android:fontFamily="sans-serif-light"
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/product_price"
+                android:fontFamily="sans-serif"
+                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="355"/>
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <!-- Supplier name and phone number -->
+    <!--<LinearLayout-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="2"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_marginTop="12dp">-->
+        <!---->
+        <!--&lt;!&ndash;Supplier name &ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Supplier: " />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/supplier_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--tools:text="GadgetStore" />-->
+
+        <!--</LinearLayout>-->
+        <!---->
+        <!--&lt;!&ndash; Supplier phone number &ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Phone: "/>-->
+    <!---->
+            <!--<TextView-->
+                <!--android:id="@+id/supplier_number"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--tools:text="555-3233"/>-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textSize="16sp"
+            android:text="Stock: "/>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/supplier_name"
+                android:id="@+id/product_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Supplier"/>
+                android:fontFamily="sans-serif"
+                android:textSize="16dp"
+                tools:text="3"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:text="Phone: "/>
-
-            <TextView
-                android:id="@+id/supplier_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="555-3233"/>
+                android:fontFamily="sans-serif"
+                android:textSize="16dp"
+                android:text=" items"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/product_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="3"/>
-
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" items"/>
-
     <Button
         android:id="@+id/store_sale_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
+        android:layout_marginTop="8dp"
         android:text="Sale!"
         android:focusable="false"
         android:focusableInTouchMode="false"/>

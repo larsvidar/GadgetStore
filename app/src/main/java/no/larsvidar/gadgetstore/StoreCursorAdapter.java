@@ -87,21 +87,8 @@ public class StoreCursorAdapter extends CursorAdapter {
                 }
             }
         });
-
-        //Make OnClickListener for Supplier phone number.
-        supplierNumberView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialNumber(context, supplierNumber);
-            }
-        });
     }
 
-    public void dialNumber(Context context, String number) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + number));
-        context.startActivity(intent);
-    }
 
     public int decreaseQuantity(int id, int currentQuantity, Context context) {
         //Making ContentValues for ProductQuantity only.
