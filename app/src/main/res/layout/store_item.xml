@@ -14,25 +14,74 @@
         android:layout_weight="3"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/product_name"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Gadget"/>
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/product_info"
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Gadget"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:text="Price: $"/>
+
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="355"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="$45 3 items"/>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/supplier_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Supplier"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:text="Phone: "/>
+
+            <TextView
+                android:id="@+id/supplier_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="555-3233"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/product_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="3"/>
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" items"/>
 
     <Button
         android:id="@+id/store_sale_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Sale!"/>
+        android:text="Sale!"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 
 </LinearLayout>

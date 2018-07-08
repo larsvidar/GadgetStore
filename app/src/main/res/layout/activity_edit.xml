@@ -96,6 +96,12 @@
                 android:layout_height="wrap_content"
                 android:hint="Supplier number" />
 
+            <Button
+                android:id="@+id/edit_call_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Call supplier"/>
+
         </LinearLayout>
 
     </LinearLayout>

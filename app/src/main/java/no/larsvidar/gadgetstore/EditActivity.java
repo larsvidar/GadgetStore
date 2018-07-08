@@ -3,6 +3,7 @@ package no.larsvidar.gadgetstore;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -73,6 +74,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierNumberEditText = findViewById(R.id.edit_supplier_number);
 
+
         mProductQuantityEditText.setText(Integer.toString(mQuantity));
 
         //Set up OnTouchListener for each EditView.
@@ -111,6 +113,15 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 Log.i("INFO", "SUBTRACT");
             }
         });
+
+        Button callSupplierButton = findViewById(R.id.edit_call_button);
+        callSupplierButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialNumber(getBaseContext(), mSupplierNumberEditText.getText().toString());
+            }
+        });
+
     }
 
     private void saveProduct() {
@@ -380,5 +391,11 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mSupplierNumberEditText.setText("");
 
         mQuantity = 0;
+    }
+
+    public void dialNumber(Context context, String number) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + number));
+        context.startActivity(intent);
     }
 }

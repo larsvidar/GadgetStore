@@ -3,6 +3,7 @@ package no.larsvidar.gadgetstore.data;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -237,6 +238,7 @@ public class StoreProvider extends ContentProvider {
     }
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        Log.i("****URI****", String.valueOf(uri));
         //***** Validating inputs *****
 
         //Validate ProductName input if key is present

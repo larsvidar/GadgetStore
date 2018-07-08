@@ -1,9 +1,11 @@
 package no.larsvidar.gadgetstore;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -76,7 +78,7 @@ public class StoreActivity extends AppCompatActivity implements LoaderManager.Lo
     }
 
     private void deleteAllProducts() {
-        int feletedRows = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
+        getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
         makeToast("All products deleted!");
     }
 
@@ -89,10 +91,10 @@ public class StoreActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //Making switch-statement in case more manu items are added later.
+        //Making switch-statement in case more menu items are added later.
         switch (item.getItemId()) {
             case R.id.menu_store_delete:
-                deleteAllProducts();
+                showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -128,5 +130,31 @@ public class StoreActivity extends AppCompatActivity implements LoaderManager.Lo
     public void onLoaderReset(Loader<Cursor> loader) {
         //Empty cursor.
         mCursorAdapter.swapCursor(null);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage("Are you sure you want to delete ALL products?");
+        alertBuilder.setPositiveButton("Delete everything!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                //User pressed Delete button.
+                deleteAllProducts();
+                makeToast("Database is now empty!");
+            }
+        });
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                //User clicked the Cancel button
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        //Show the AlertDialog
+        AlertDialog alertDialog = alertBuilder.create();
+        alertDialog.show();
     }
 }
